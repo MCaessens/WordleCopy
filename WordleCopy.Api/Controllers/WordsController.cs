@@ -8,8 +8,9 @@ public class WordsController : Controller
 {
     // GET
     [HttpPost("guess")]
-    public Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
+        await Task.Delay(100);
         return Ok();
     }
 }

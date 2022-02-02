@@ -22,7 +22,26 @@ namespace WordleCopy.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WordleCopy.Core.Word", b =>
+            modelBuilder.Entity("WordleCopy.Core.Entities.SelectedWord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SelectionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WordId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WordId");
+
+                    b.ToTable("SelectedWords");
+                });
+
+            modelBuilder.Entity("WordleCopy.Core.Entities.Word", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,7 +53,55 @@ namespace WordleCopy.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AvailableWords");
+                    b.ToTable("Words");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("5809b45c-8ff6-436d-b701-8df473ea80e1"),
+                            Name = "Torso"
+                        },
+                        new
+                        {
+                            Id = new Guid("8258f1dd-ad3a-44c4-abd3-a223aac2ca3c"),
+                            Name = "Whizz"
+                        },
+                        new
+                        {
+                            Id = new Guid("6565b6b5-4f3f-4cb7-b0a9-45c5572ed0a2"),
+                            Name = "Muzzy"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec4794d2-1365-45b7-8481-e46f679c1e9a"),
+                            Name = "Frizz"
+                        },
+                        new
+                        {
+                            Id = new Guid("8a289b35-01eb-47a2-bdc2-52f633fdf016"),
+                            Name = "Bizzy"
+                        },
+                        new
+                        {
+                            Id = new Guid("a029a207-aba5-4bc2-8acd-8947445d4a90"),
+                            Name = "Jumbo"
+                        },
+                        new
+                        {
+                            Id = new Guid("6c33fc4c-3b37-4d69-ba29-ebfb1b73d567"),
+                            Name = "Jumps"
+                        });
+                });
+
+            modelBuilder.Entity("WordleCopy.Core.Entities.SelectedWord", b =>
+                {
+                    b.HasOne("WordleCopy.Core.Entities.Word", "Word")
+                        .WithMany()
+                        .HasForeignKey("WordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Word");
                 });
 #pragma warning restore 612, 618
         }
